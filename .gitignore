@@ -7,6 +7,7 @@ yarn-error.log*
 # Build outputs
 dist/*
 !dist/index.html
+!dist/404.html
 .slidev/
 .slidev/dist/
 

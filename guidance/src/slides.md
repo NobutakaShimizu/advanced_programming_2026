@@ -4,6 +4,7 @@ layout: cover
 title: ガイダンス
 author: 清水 伸高
 mdc: true
+routerMode: hash
 githubPages:
   ogp: true
 css: unocss
@@ -27,7 +28,7 @@ themeConfig:
 [清水 伸高](https://sites.google.com/view/nobutaka-shimizu/home) (塩浦研 助教)
 
 <div style="position: absolute; bottom: 20px; font-size: 0.8em; width: 100%; text-align: center;">
-2025年 10月7日
+2026年 10月6日
 </div>
 
 
@@ -128,6 +129,22 @@ color: amber-light
 - 明らかに理解していない提出は、該当部分は減点
   - 例えば講義で用いていない専門用語を説明なしで使うなど
   - 自身の提出が減点されないか不安な箇所があれば、個人的に相談してください
+
+
+---
+layout: top-title
+color: amber-light
+---
+
+::title::
+
+# 講義日程
+
+::content::
+
+- 10月6日(初回)
+- 11月10日は出張のため休講
+- 11月24（火）が最終回
 
 
 ---

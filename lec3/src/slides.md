@@ -2,6 +2,7 @@
 theme: neversink
 layout: cover
 title: プログラミング応用第3回
+routerMode: hash
 githubPages:
   ogp: true
 author: 清水 伸高
