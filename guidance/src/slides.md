@@ -42,24 +42,16 @@ color: amber-light
 
 ::content::
 
-<div class="topic-box">
+- 内容: アルゴリズムの理論について
+- 講義: 小テスト(30分) + 授業(70分)
+- 演習: 毎週演習の開始時にレポート課題を配布
 
-- **講義**: アルゴリズムの理論的側面と様々な最適化アルゴリズムを学ぶ.
-- **演習**: 講義で紹介したアルゴリズムや理論に関する問題を解く.
-- 基本的に**数学**の授業です.
+- **小テスト: 講義中に実施. 前回出題したレポートと同様の問題**
+  - レポート課題だけだと生成AIで機械的に解けてしまうので、今年から導入
 
-</div>
-
-<v-click>
-
-  - 演習課題 (毎週): 実装課題 or レポート課題
-    - 実装課題: LMS上で配布
-    - レポート課題: 演習開始時に問題用紙を配布
-    - 締め切り: 一週間後の日本時間13時
-    - 提出方法: LMSにアップロード (レポートはpdf形式のみ受け付ける)
-  - 最終回後に期末課題を出題
-
-</v-click>
+- 評価基準:
+  - 小テスト 70%
+  - 課題 30%
 
 ---
 layout: top-title
@@ -74,19 +66,32 @@ color: amber-light
 
 講義の受講にあたっては以下の環境が**必須**:
 
-<v-clicks>
-
 - 大学のSlackアカウント
   - 手続きについては[こちら](https://portal.isct.ac.jp/ja/sys/slack/guide.html#sign-in)を参照
   - 講義に関する私への連絡は**必ずSlackのDM**で行ってください
+  - メールでの連絡は見逃す可能性が非常に高い
   
 - LMSへのログイン
   - 課題の提出に利用する
-- Pythonの実行環境
-  - 個人のGoogleアカウントがあれば, [Google Colab](https://colab.research.google.com/?hl=ja)を利用できる (特に何もインストールしなくてよい).
-  - 手元でPythonの環境が整っているならば, それを利用してもよい.
 
-</v-clicks>
+---
+layout: top-title
+color: amber-light
+---
+::title::
+# 生成AIの利用について
+::content::
+
+<div class="topic-box">
+
+  **学習の補助として**の利用は推奨。しかし生成AIの出力を理解せずそのまま書くのはNG。
+
+</div>
+
+- 明らかに理解していない提出は、該当部分は減点
+  - 例えば講義で用いていない専門用語を説明なしで使うなど
+  - 自身の提出が減点されないか不安な箇所があれば、個人的に相談してください
+
 
 ---
 layout: top-title
@@ -143,21 +148,21 @@ color: amber-light
 layout: top-title
 color: amber-light
 ---
+
 ::title::
-# 生成AIの利用について
+
+# 課題
+
 ::content::
 
-<div class="topic-box">
-
-  **内容を理解していれば**生成AIを使ったCodingは推奨.
-
-</div>
-
-- 例えば, GitHub Copilotを使うと, コードの自動補完やコードの説明をしてくれる
-  - Google ColabではGeminiが使える
-  - 現在ではコーディングのみならず, 数学の証明や論理的な説明においても非常に有用
-- ただし, 間違える可能性があるので, 出力されたコードをそのまま使うのではなく, 自分で確認すること
-- 演習の時間中も利用はOK (おまかせします)
+- 演習の開始時に配布
+  - 締切は次の週の**昼の13時** (日本標準時)
+  - LMSで提出 (pdfで提出)
+  - word, latex, ノート (markdown形式のノート、Obsidian, Notionなど)を強く推奨
+  - 手書きでも良いが、**字が汚くて内容が分からない回答は採点されません** (昨年はかなり多かった)
+    - 採点者側は書いてある内容を把握する努力はしない
+  - 課題に関する質問やヒントなどの相談を受け付けます
+    - 手厚く対応しますので、積極的に尋ねてください
 
 ---
 layout: top-title
@@ -166,99 +171,10 @@ color: amber-light
 
 ::title::
 
-# Google Colabについて
+# 小テスト
 
 ::content::
 
-<div class="remark">
-
-以降はGoogle Colabの説明なのでPythonの実行環境が整っている方は聞かなくても構いません.
-
-</div>
-
-<v-clicks>
-
-- 正式名称は**Google Colaboratory** (略称: Colab).
-- Googleが提供する**Jupyter Notebook**のクラウド上での実行環境です.
-  - Jupyter Notebook: 端的に言うと, プログラミング実行環境と文書をまとめたもの.
-    - コードと文章を同じファイルに書けるので, 課題の提出に適している.
-    - 拡張子は`.ipynb`
-  - 三つの言語(**Ju**lia, **Pyt**hon, **R**)に対応している.
-  - ブラウザでGoogle Colabのページにアクセスするだけで利用できる.
-
-</v-clicks>
-
----
-layout: top-title
-color: amber-light
----
-
-::title::
-
-# Google Colabの使い方
-
-::content::
-
-アクセスすると以下のような画面が表示される:
-
-<div class="image-container" style="width: 80%; margin: auto;">
-  <img src="./images/colab1.png" alt="Google Colabの画面" />
-</div>
-
----
-layout: top-title
-color: amber-light
----
-
-::title::
-# Google Colabの使い方
-::content::
-
-右下の「キャンセル」をクリックするとポップアップ画面が消え, 以下のような画面になる:
-<div class="image-container" style="width: 80%; margin: auto;">
-  <img src="./images/colab2.png" alt="Google Colabの画面" />
-</div>
-
----
-layout: top-title
-color: amber-light
----
-::title::
-# Google Colabの使い方
-::content::
-
-左上の「ファイル → ノートブックをアップロード」でダウンロードしたipynbファイルをアップロードして開ける:
-<div class="image-container" style="width: 80%; margin: auto;">
-  <img src="./images/colab3.png" alt="Google Colabの画面" />
-</div>
-
----
-layout: top-title
-color: amber-light
----
-::title::
-# Google Colabの使い方
-::content::
-ダウンロードした課題ファイルを開くと, 以下のような画面になる:
-<div class="image-container" style="width: 60%; margin: auto;">
-  <img src="./images/colab4.png" alt="Google Colabの画面" />
-</div>
-
-コードが書いてある欄(セルと呼ばれる)をクリックして, その中にコードを書いていく.
-セル内のコードの実行は, セルを選択してから上部の「▶︎」ボタンをクリック.
-
-<div class="image-container" style="width: 60%; margin: auto;">
-  <img src="./images/colab5.png" alt="Google Colabの画面" />
-</div>
-
----
-layout: top-title
-color: amber-light
----
-::title::
-# Google Colabの使い方
-::content::
-書き終わったら, 上部の「ファイル → ダウンロード → .ipynb」を選択して, ipynbファイルをダウンロードし, これをLMSを通じて提出すればよい.
-<div class="image-container" style="width: 60%; margin: auto;">
-  <img src="./images/colab3.png" alt="Google Colabの画面" />
-</div>
+- 講義の開始時に問題を配布し、30分後に回収
+- 持ち込みやPCの利用はNG
+- 問題自体は前回に出題した演習とほぼ同じ

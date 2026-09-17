@@ -3,13 +3,24 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "private": true,
+  "workspaces": [
+    "*/src"
+  ],
   "scripts": {
-    "build": "pnpm run -r build"
+    "build": "npm run build --workspaces --if-present",
+    "dev:guidance": "npm run dev -w guidance",
+    "dev:lec1": "npm run dev -w lec1",
+    "dev:lec2": "npm run dev -w lec2",
+    "dev:lec3": "npm run dev -w lec3",
+    "dev:lec4": "npm run dev -w lec4",
+    "dev:lec5": "npm run dev -w lec5",
+    "dev:lec6": "npm run dev -w lec6",
+    "dev:lec7": "npm run dev -w lec7"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
-  "packageManager": "pnpm@10.18.2+sha512.9fb969fa749b3ade6035e0f109f0b8a60b5d08a1a87fdf72e337da90dcc93336e2280ca4e44f2358a649b83c17959e9993e777c2080879f3801e6f0d999ad3dd",
   "dependencies": {
     "@slidev/cli": "latest",
     "@slidev/theme-default": "latest",
@@ -23,13 +34,5 @@
   "devDependencies": {
     "playwright-chromium": "latest",
     "wrangler": "latest"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "playwright-chromium",
-      "sharp",
-      "workerd"
-    ]
   }
 }
