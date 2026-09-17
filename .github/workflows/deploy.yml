@@ -22,8 +22,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
-        with:
-          version: 10
 
       - uses: actions/setup-node@v4
         with:
@@ -32,9 +30,6 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
-
-      - name: Install chromium
-        run: pnpm add -Dw playwright-chromium
 
       - name: Build slides
         run: pnpm run build
