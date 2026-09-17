@@ -1,0 +1,10 @@
+{
+  "name": "src",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "slidev build --base /advanced_programming_2026/guidance/ --out ../../dist/guidance",
+    "dev": "slidev --open",
+    "export": "slidev export --output ../../dist/guidance/guidance.pdf"
+  }
+}

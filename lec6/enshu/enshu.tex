@@ -1,0 +1,108 @@
+\documentclass[12pt,a4paper]{article}
+% \usepackage[utf8]{inputenc} % fontspecと併用時は不要
+\usepackage[japanese]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+
+% 日本語改行設定
+\usepackage{xeCJK}
+\usepackage{indentfirst}
+\setlength{\parindent}{1em}
+
+% 日本語フォント設定
+\usepackage{fontspec}
+\setmainfont{Hiragino Mincho Pro}
+\setsansfont{Hiragino Sans}
+\setmonofont{Menlo}
+\setCJKmainfont{Hiragino Mincho Pro}
+\setCJKsansfont{Hiragino Sans}
+\setCJKmonofont{Menlo}
+% ページ設定
+\geometry{margin=1.5cm}
+\setlength{\headheight}{14.70604pt}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{プログラミング応用 第六回}
+\fancyhead[R]{演習問題}
+% \fancyfoot[R]{\ifnum\value{page}=1\small（裏面に続く）\fi}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% 問題番号のカウンター
+\newcounter{problem}
+\setcounter{problem}{0}
+
+% シンプルな問題環境
+\newenvironment{problem}[1][]{
+    \refstepcounter{problem}
+    \vspace{1em}
+    \noindent
+    \textbf{問\arabic{problem}} #1
+    %\vspace{0.5em}
+    %\par
+}{
+    \vspace{1em}
+}
+
+\begin{document}
+
+% ヘッダー情報
+\begin{center}
+    {\Large \textbf{プログラミング応用 第六回}}\\[0.5em]
+    {\large \textbf{演習問題}}\\[1em]
+\end{center}
+
+\noindent\textbf{注意事項}
+
+\begin{itemize}[leftmargin=1em]
+    \item 解答はpdf形式でLMSにアップロードしてください (例えば紙に手書きしてスキャンしたものや \TeX をコンパイルしたものなど)
+    \item 締切：2025年11月\textbf{18日（火）}日本時間13時 (第五回と同じ締切日)
+    \item 気をつけていますが\textbf{問題文に不備がある可能性はあります}ので, 気軽に問い合わせてください (SlackのDMも常時受付ます).
+    \item 中々解けない問題についてはヒントも出しますので, 気軽に質問してください.
+\end{itemize}
+
+\begin{problem}
+  講義資料p23の線形計画問題
+  \begin{empheq}[box=\fbox]{align*}
+        \text{minimize} \quad & c^\top x \\
+    \text{s.t.} \quad & Ax \ge b \\
+                      & x \ge 0
+  \end{empheq}
+  に対して以下の問いに答えよ.
+  \begin{enumerate}[label=(\arabic*)]
+    \item 関数 $\mathcal{L}^*(y):=\inf_{x\ge 0}\{c^\top x + y^\top (b-Ax)\}$ を求めよ.
+    \item $y\ge 0$の制約下で$\mathcal{L}^*(y)$ を最大化する最適化問題がp23に記載されている双対問題
+    \begin{empheq}[box=\fbox]{align*}
+          \text{maximize} \quad & y^\top b \\
+      \text{s.t.} \quad & y^\top A \le c^\top \\
+                        & y \ge 0
+    \end{empheq}
+  と一致することを示せ. さらに, その最適値が主問題の最適値以下であることを弱双対定理を用いずに示せ. 簡単のため, 主問題が最適解を持つことを仮定してよい.
+  \end{enumerate}
+\end{problem}
+
+\begin{problem}
+    最短$st$経路問題のIP定式化のminimizeとmaximizeを入れ替えた整数計画問題
+        \begin{empheq}[box=\fbox]{align*}
+        \text{maximize} \quad & \sum_{e\in E} w(e) x_e \\
+        \text{s.t.} \quad & \sum_{e\in \delta^{\mathrm{in}}(v)} x_e - \sum_{e\in \delta^{\mathrm{out}}(v)} x_e =
+          \begin{cases}
+            -1 & v=s \\
+            1 & v=t \\
+            0 & \text{otherwise}
+          \end{cases} && (\forall v\in V) \\
+                  & x_e\in\{0,1\} && (\forall e\in E)
+    \end{empheq}
+    を考える (辺重みは非負とする). この問題は\textbf{最長}$st$経路問題のIP定式化になっているだろうか?
+    そうであれば証明し, そうでなければ反例を挙げよ ($\mathtt{P}\ne\mathtt{NP}$などの仮定は用いずに答えよ).
+\end{problem}
+
+\end{document}

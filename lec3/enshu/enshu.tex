@@ -1,0 +1,121 @@
+\documentclass[12pt,a4paper]{article}
+% \usepackage[utf8]{inputenc} % fontspecと併用時は不要
+\usepackage[japanese]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+
+% 日本語改行設定
+\usepackage{xeCJK}
+\usepackage{indentfirst}
+\setlength{\parindent}{1em}
+
+% 日本語フォント設定
+\usepackage{fontspec}
+\setmainfont{Hiragino Mincho Pro}
+\setsansfont{Hiragino Sans}
+\setmonofont{Menlo}
+\setCJKmainfont{Hiragino Mincho Pro}
+\setCJKsansfont{Hiragino Sans}
+\setCJKmonofont{Menlo}
+% ページ設定
+\geometry{margin=1.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{プログラミング応用 第三回}
+\fancyhead[R]{演習問題}
+\fancyfoot[R]{\ifnum\value{page}=1\small（裏面に続く）\fi}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% 問題番号のカウンター
+\newcounter{problem}
+\setcounter{problem}{0}
+
+% シンプルな問題環境
+\newenvironment{problem}[1][]{
+    \refstepcounter{problem}
+    \vspace{1em}
+    \noindent
+    \textbf{問\arabic{problem}} #1
+    %\vspace{0.5em}
+    %\par
+}{
+    \vspace{1em}
+}
+
+\begin{document}
+
+% ヘッダー情報
+\begin{center}
+    {\Large \textbf{プログラミング応用 第三回}}\\[0.5em]
+    {\large \textbf{演習問題}}\\[1em]
+\end{center}
+
+\noindent\textbf{注意事項}
+
+\begin{itemize}[leftmargin=1em]
+    \item 解答はpdf形式でLMSにアップロードしてください (例えば紙に手書きしてスキャンしたものや \TeX をコンパイルしたものなど)
+    \item 締切：2025年10月28日（火）日本時間13時
+    \item 質問がある場合は手を挙げてください.
+    \item なお、アルゴリズムの記述問題に関しては講義資料の疑似コードを参考にしてください（明確な文法が存在するわけではないので、あくまでもアルゴリズムの動作が理解できるよう記述してあれば十分です）。記述に不安がある場合は質問すること.
+    \item 講義中で説明した定理や補題は証明なしに用いてよい. また, 問題中に指定した定理や補題も証明なしに用いてよい.
+\end{itemize}
+
+\begin{problem}
+次の問いに答えよ.
+\begin{enumerate}
+\item $k$個のボールそれぞれを, $k$個の箱の中から一様ランダムに選んで入れる. このとき, どの箱にもちょうど一つずつボールが入る確率を求めよ.
+\item 1で求めた確率を $p_k$ とする. $\lim_{k\to\infty} \frac{\log p_k}{k}$ の極限値を求めよ (ただしここでは自然対数を考える).
+ただし, 解答では次のStirlingの近似を証明なしに用いてよい:
+\begin{align*}
+    \sqrt{2\pi} n^{n+1/2} e^{-n} \le n! \le e n^{n+1/2} e^{-n}
+\end{align*}
+\item $k$個のボールを$10k^2$個の箱の中から一つ一様ランダムに選んで入れる. このとき, どの箱にもボールが高々一つしか入らない確率が少なくとも$0.9$であることを示せ.
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+    ベクトル $v\in\mathbb{R}^n \setminus\{0\}$ を固定する.
+    ベクトル $r \in\{0,1\}^n$ を, 各$r_i$を独立に確率$1/2$で$0$または$1$にする.
+    このとき
+    \begin{align*}
+        \Pr\left[\sum_{i=1}^n v_i r_i \ne 0\right] \ge 1/2
+    \end{align*}
+    が成り立つことを示せ.
+\end{problem}
+
+\begin{problem}
+    成功確率が少なくとも $2/3$ である乱択アルゴリズム$A$を$M$回走らせたとする. このとき,
+    \begin{align*}
+        \Pr\left[\text{$M$個の多数決が不正解}\right] \le e^{-0.01 M}
+    \end{align*}
+    が成り立つことを示せ.
+\end{problem}
+
+\newpage
+
+\begin{problem}
+確率変数$X,Y$をそれぞれ$\{0,\dots,5\}$上の一様分布に従う確率変数とする ($X$と$Y$は独立).
+このとき, 確率変数の独立性の定義に基づいて以下の問いに答えよ.
+\begin{enumerate}
+\item $X$ と $(X+Y)\bmod 6$ は独立であるかどうか, 理由も含めて答えよ.
+\item $X$ と $(X\cdot Y)\bmod 6$ は独立であるかどうか, 理由も含めて答えよ.
+\end{enumerate}
+\end{problem}
+
+
+\begin{problem}
+ベクトル $y\in\mathbb{R}^D$ を固定する.
+行列$B\in\mathbb{R}^{d\times D}$を, 各成分が独立に標準正規分布 $N(0,1)$ に従うランダム行列とし,
+$A=\frac{1}{\sqrt{d}}B$ とする.
+このとき, $\mathbb{E}[\|Ay\|^2] = \|y\|^2$ が成り立つことを示せ (講義資料に書いてある内容は証明なしに用いて良い).
+\end{problem}
+
+\end{document}

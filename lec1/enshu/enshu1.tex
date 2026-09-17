@@ -1,0 +1,129 @@
+\documentclass[12pt,a4paper]{article}
+% \usepackage[utf8]{inputenc} % fontspecと併用時は不要
+\usepackage[japanese]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+
+% 日本語改行設定
+\usepackage{xeCJK}
+\usepackage{indentfirst}
+\setlength{\parindent}{1em}
+
+% 日本語フォント設定
+\usepackage{fontspec}
+\setmainfont{Hiragino Mincho Pro}
+\setsansfont{Hiragino Sans}
+\setmonofont{Menlo}
+\setCJKmainfont{Hiragino Mincho Pro}
+\setCJKsansfont{Hiragino Sans}
+\setCJKmonofont{Menlo}
+% ページ設定
+\geometry{margin=1.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{プログラミング応用 第一回}
+\fancyhead[R]{演習問題}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% 問題番号のカウンター
+\newcounter{problem}
+\setcounter{problem}{0}
+
+% シンプルな問題環境
+\newenvironment{problem}[1][]{
+    \refstepcounter{problem}
+    \vspace{1em}
+    \noindent
+    \textbf{問\arabic{problem}} #1
+    %\vspace{0.5em}
+    %\par
+}{
+    \vspace{1em}
+}
+
+\begin{document}
+
+% ヘッダー情報
+\begin{center}
+    {\Large \textbf{プログラミング応用 第一回}}\\[0.5em]
+    {\large \textbf{演習問題}}\\[1em]
+\end{center}
+
+\noindent\textbf{注意事項}
+
+\begin{itemize}[leftmargin=1em]
+    \item 解答はpdf形式でLMSにアップロードしてください (例えば紙に手書きしてスキャンしたものや \TeX をコンパイルしたものなど)
+    \item 締切：2025年10月14日（火）日本時間13時
+    \item 質問がある場合は手を挙げてください。
+\end{itemize}
+
+\begin{problem}
+オーダー記法の厳密な定義に基づいたとき、以下の主張はそれぞれ正しいだろうか？正しい場合は証明し、正しくない場合は反例を示せ。
+\begin{enumerate}
+    \item $3n^2+5n+2=O(n^2)$
+    \item $f(n)=O(g(n))$かつ$g(n)=O(h(n))$ならば$f(n)=O(h(n))$
+    \item $\log_2 f(n) = O(\log_2 g(n))$ならば$f(n)=O(g(n))$
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+以下のコードは何を計算しているか答えよ。また、その時間計算量も答えよ。ただし、計算量は演算の回数だけ考えればよく、答えだけオーダー表記で記述せよ。なお、コード内のlen関数の計算量は無視してよい。入力AとBはどちらも $n\times n$ の二次元リストである。
+
+\begin{verbatim}
+def f(A, B):
+    n = len(A)
+    C = [[0]*n for _ in range(n)]
+    for i in range(n):
+        for j in range(n):
+            for k in range(n):
+                C[i][j] += A[i][k] * B[k][j]
+    return C
+\end{verbatim}
+\end{problem}
+
+\begin{problem}
+フィボナッチ数列$(a_n)_{n\ge 0}$に関する以下の事実を証明せよ。ただし、$a_0=0, a_1=1$とする。
+\begin{align*}
+  \begin{pmatrix}
+    a_{n+1} \\
+    a_{n}
+  \end{pmatrix}
+  =
+  \begin{pmatrix}
+    1 & 1 \\
+    1 & 0
+  \end{pmatrix}^n
+  \begin{pmatrix}
+    1 \\
+    0
+  \end{pmatrix}
+\end{align*}
+
+\end{problem}
+
+\begin{problem}
+自然数 $ n$ に対し, $n$ を一つ以上の自然数の和で表す方法(これを$n$の分割という)の総数を$p(n)$とする。例えば
+\begin{align*}
+n &= 4 \\
+&= 3+1 \\
+&= 2+2 \\
+&= 1+1+2 \\
+&= 1+1+1+1
+\end{align*}
+より$p(4)=5$である。また、$n$の分割のうち、$k$以上の自然数のみを使って表す方法の総数を$S(n,k)$とする。例えば
+\begin{align*}
+4 &= 3+1 \\
+&= 2+2
+\end{align*}
+より$S(4,2)=2$である。$k<n$のときの$S(n,k)$を$S(n-k,k)$と$S(n,k+1)$を用いて表せ。
+\end{problem}
+
+\end{document}

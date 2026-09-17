@@ -1,0 +1,262 @@
+\documentclass[12pt,a4paper]{article}
+% \usepackage[utf8]{inputenc} % fontspecと併用時は不要
+\usepackage[japanese]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+% 日本語改行設定
+\usepackage{xeCJK}
+\usepackage{indentfirst}
+\setlength{\parindent}{1em}
+
+% 日本語フォント設定
+\usepackage{fontspec}
+\setmainfont{Hiragino Mincho Pro}
+\setsansfont{Hiragino Sans}
+\setmonofont{Menlo}
+\setCJKmainfont{Hiragino Mincho Pro}
+\setCJKsansfont{Hiragino Sans}
+\setCJKmonofont{Menlo}
+% ページ設定
+\geometry{margin=1.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{プログラミング応用 第四回}
+\fancyhead[R]{演習問題解説}
+\fancyfoot[R]{\ifnum\value{page}=1\small（裏面に続く）\fi}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% 問題番号のカウンター
+\newcounter{problem}
+\setcounter{problem}{0}
+
+% シンプルな問題環境
+\newenvironment{problem}[1][]{
+    \refstepcounter{problem}
+    \vspace{1em}
+    \noindent
+    \textbf{問\arabic{problem}} #1
+    %\vspace{0.5em}
+    %\par
+}{
+    \vspace{1em}
+}
+
+% 解答環境
+\newenvironment{solution}{
+    \vspace{0.5em}
+    \begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, arc=0mm, breakable]
+    \noindent
+    \textbf{【解答】}
+    \vspace{0.3em}
+}{
+    \end{tcolorbox}
+    \vspace{1em}
+}
+
+\begin{document}
+
+% ヘッダー情報
+\begin{center}
+    {\Large \textbf{プログラミング応用 第四回}}\\[0.5em]
+    {\large \textbf{演習問題解説}}\\[1em]
+\end{center}
+
+\begin{problem}
+    以下の各問いに答えよ.
+    \begin{enumerate}[label=(\arabic*)]
+        \item ハミルトンパス問題をハミルトン閉路問題にカープ帰着せよ (\textbf{2点}).
+        \item 次の判定問題を$\Pi_{\mathrm{path}}$とする: 重みつき無向グラフ $G=(V,E,w)$ (ただし$w\colon E \to \mathbb{Z}$ は負の重みも許される), 二つの頂点 $s,t\in V$, そして整数 $c\in \mathbb{Z}$ に対して, $s$から$t$への長さ$c$以下のパスが存在するならばYes, そうでないならばNoを出力せよ. ここで, パスとは路であって\textbf{同じ頂点を二度以上通らない}ものをいい, パスの長さとはそのパスに含まれる辺の重みの総和である. ハミルトン閉路問題を$\Pi_{\mathrm{path}}$にカープ帰着せよ (\textbf{2点}).
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+\paragraph*{1の解説.}
+
+ハミルトンパス問題の入力$G=(V,E)$に対して, 新たな頂点$w$を追加し, さらに全ての$u\in V$に対して辺$\{w,u\}$を追加して得られるグラフを$G'$とする. このとき次が成り立つ: $G$がハミルトンパスを持つ $\iff$ $G'$がハミルトン閉路を持つ.
+
+\begin{itemize}
+\item ($\Rightarrow$の証明) $G$がハミルトンパス$P=(v_1,\dots,v_n)$を持つとする. このとき, $(w,v_1,\dots,v_n,w)$は$G'$のハミルトン閉路である.
+\item ($\Leftarrow$の証明) $G'$がハミルトン閉路$C=(w,v_1,\dots,v_n,w)$を持つとする. このとき, $C$から$w$を取り除いて得られる路$P=(v_1,\dots,v_n)$は$G$のハミルトンパスである.
+\end{itemize}
+
+以上より, $G$を受け取って$G'$を出力するアルゴリズムは, ハミルトンパス問題をハミルトン閉路問題にカープ帰着するアルゴリズムである.
+
+\paragraph*{2の解説.}
+
+ハミルトン閉路問題の入力$G=(V,E)$に対して, 頂点 $u\in V$を一つ固定し, $N(u)=\{v\in V\colon \{u,v\}\in E\}$を$u$の隣接頂点の集合とする.
+新たに頂点 $u'$ を追加し, さらに $u'$ から $N(u)$ 内の全ての頂点に辺を張る. このようにして得られたグラフを $G'=(V\cup\{u'\},E')$ とする.
+さらに重み関数 $w\colon E' \to \mathbb{Z}$を$w(e)=-1$ ($e\in E'$) と定義とする.
+カープ帰着が構成する$\Pi_{\mathrm{path}}$の入力を$(G',u,u',-|V|)$とする.
+
+このとき次が成り立つ: $G$がハミルトン閉路を持つ $\iff$ $G'$が長さ$-|V|$以下の$uu'$パスを持つ.
+
+\begin{itemize}
+\item ($\Rightarrow$の証明) $G$がハミルトン閉路$C=(v_1,\dots,v_n,v_1)$を持つとし, 始点を$v_1=u$とする. このとき, $(u,v_2,\dots,v_n,u')$は$G'$において長さ$-|V|$の$uu'$パスである.
+\item ($\Leftarrow$の証明) $G'$が長さ$-|V|$の$uu'$パス$P=(u,v_1,\dots,v_n,u')$を持つとする. このとき, $P$において$u'$を$u$に置き換えて得られる$G$の路$C=(u,v_1,\dots,v_n,u)$は$G$のハミルトン閉路である.
+\end{itemize}
+
+\end{solution}
+
+\newpage
+
+\begin{problem}
+    ナップザック問題に関する以下の二つの判定問題を考える:
+    \begin{itemize}    
+        \item \textbf{ナップザック判定問題}: $n$個のアイテムがあり, 各アイテム$i$は価値 $v_i\in\mathbb{Z}_{\ge 0}$ と重み $w_i\in\mathbb{Z}_{\ge 0}$ を持つ. 各$(v_i,w_i)$ ($i=1,\dots,n$), ナップザックの容量 $W\in\mathbb{Z}_{\ge 0}$, そして閾値 $K\in\mathbb{Z}_{\ge 0}$ が与えられる. 容量を超えない範囲で選択したアイテムの価値の総和が$K$以上となる組み合わせが存在するならばYes, そうでなければNoを出力せよ. ただし, \textbf{各アイテムはいくつでも詰め込むことができる}.
+        \item \textbf{01ナップザック判定問題}: 各アイテムは\textbf{高々一つまで}詰め込めるとしたときのナップザック判定問題. すなわち, $n$個のアイテムがあり, 各アイテム$i$は価値 $v_i\in\mathbb{Z}_{\ge 0}$ と重み $w_i\in\mathbb{Z}_{\ge 0}$ を持つ. 各$(v_i,w_i)$ ($i=1,\dots,n$), ナップザックの容量 $W\in\mathbb{Z}_{\ge 0}$, そして閾値 $K\in\mathbb{Z}_{\ge 0}$ が与えられる. 容量を超えない範囲で選択したアイテムの価値の総和が$K$以上となる組み合わせが存在するならばYes, そうでなければNoを出力せよ. ただし, \textbf{各アイテムは高々一つまで詰め込むことができる}.
+    \end{itemize}
+
+    ナップザック判定問題を01ナップザック判定問題にカープ帰着せよ. 入力で与えられる整数の桁数に注意すること (\textbf{2点}).
+\end{problem}
+
+\begin{solution}
+\paragraph*{解説.}
+
+ナップザック判定問題の入力を$(v_1,w_1),\dots,(v_n,w_n),W,K$とする.
+各アイテムを番号$i\in\{1,\dots,n\}$で表す.
+01ナップザック判定問題の入力を以下のように構成する:
+\begin{itemize}
+\item 01ナップザック判定問題の容量と閾値は元の問題と同じとする.
+\item 各アイテム$i=1,\dots,n$および各$j=1,\dots,\lceil\log_2 W\rceil$に対して, 重さ$2^j \cdot w_i$, 価値$2^j \cdot v_i$のアイテム$I_{i,j}$を追加する.
+\end{itemize}
+
+以下が成り立つ: 元のナップザック判定問題の入力の答えがYesである $\iff$ 上記の方法で得られた01ナップザック判定問題の入力の答えがYesである.
+
+($\Rightarrow$の証明) 元のナップザック判定問題の入力の答えがYesであるとする.
+このとき, 各アイテム$i$は高々$N_i := \left\lceil \frac{W}{w_i} \right\rceil$個まで詰め込むことができる.
+各アイテム $i\in\{1,\dots,n\}$に対し, $N_i$を二進展開して
+\begin{align*}
+    N_i = \sum_{j=1}^{\lceil\log_2 N_i\rceil} 2^j \cdot b_{i,j}
+\end{align*}
+と表し, $T'=\{I_{i,j} \colon b_{i,j}=1\}$を変換後のナップザック問題のアイテムの選び方とする (01ナップザック問題なので, アイテムの選び方は部分集合として表すことができる).
+この選び方において, 変換後のナップザック問題における価値の総和と容量はそれぞれ
+\begin{align*}
+    &\sum_{I_{i,j}\in T'} 2^j\cdot v_i = \sum_i \sum_{j=1}^{\lceil\log_2 N_i\rceil} 2^j \cdot v_i \cdot b_{i,j} = \sum_i v_i \cdot N_i \ge K \\
+    &\sum_{I_{i,j}\in T'} 2^j\cdot w_i = \sum_i \sum_{j=1}^{\lceil\log_2 N_i\rceil} 2^j \cdot w_i \cdot b_{i,j} = \sum_i w_i \cdot N_i \le W.
+\end{align*}
+となる. よって, 変換後のナップザック問題の入力の答えはYesである.
+
+
+($\Leftarrow$の証明) 上記の方法で得られた01ナップザック問題の入力の答えがYesであるとする. 価値の総和が閾値$K'=K$以上となるアイテムの集合を$T'$とする.
+各$i=1,\dots,n$に対し, $S_i\subseteq\{1,\dots,\lceil \log_2 W\rceil\}$を $I_{i,j} \in T'$ となるようなインデックス$j$の集合とする. つまり,
+\begin{align*}
+    S_i = \{j\in\{1,\dots,\lceil \log_2 W\rceil\} \colon I_{i,j} \in T\}.
+\end{align*}
+このとき, 各$i=1,\dots,n$に対し, 元のナップザック問題のアイテム$i$を, $N_i:=\sum_{j\in S_i} 2^j$個選ぶことで, 価値の総和は
+\begin{align*}
+    \sum_i v_i \cdot N_i = \sum_{i=1}^n \sum_{j\in S_i} 2^j \cdot v_i = (\text{変換後の選び方$T$に対する価値の総和}) \ge K'
+\end{align*}
+となる. 容量についても同様に
+\begin{align*}
+    \sum_i w_i \cdot N_i = \sum_{i=1}^n \sum_{j\in S_i} 2^j \cdot w_i = (\text{変換後の選び方$T$に対する重みの総和}) \le W'
+\end{align*}
+となる. よって, 元のナップザック判定問題の入力の答えはYesである.
+
+\end{solution}
+
+\newpage
+
+\begin{problem}
+$n$人でゲームを行う ($n\geq 2$). このゲームは二つのチームに分かれて行うゲームである.
+各プレイヤー$i$には戦力$w_i \in \mathbb{Z}_{\ge 0}$ が割り当てられており, チームの戦力はそのチームに属するプレイヤーの戦力の総和と定義する.
+$n$人のプレイヤーを二つのチームにチーム分けすることを考える.
+全てのプレイヤーはどちらか一方のみのチームに属するとする (即ち, 両方のチームに所属していたり, どちらのチームにも属さないプレイヤーはいないとする).
+なお, 両チームの人数が同じである必要はない.
+上手くチーム分けすることによって, 両チームの戦力が同じ値になるようにできるならばYes, そうでなければNoを出力する判定問題を\textbf{戦力均衡分配問題}と呼ぶ.
+
+戦力均衡分配問題を01ナップザック判定問題にカープ帰着せよ (\textbf{2点}).
+\end{problem}
+
+\begin{solution}
+\paragraph*{解説.}
+
+戦力均衡分配問題の入力を$w=(w_1,\dots,w_n)$とする.
+$\sum_{i=1}^n w_i = W$が奇数のとき, 戦力均衡分配問題の答えはNoであるため,
+答えが自明にNoであるような01ナップザック判定問題の入力を任意に構成し, それを出力すればよい.
+以後, $\sum_{i=1}^n w_i = W$が偶数であると仮定し, 01ナップザック判定問題の入力を
+\begin{itemize}
+\item アイテム$i$の価値をと重みをそれぞれ$w_i$とする
+\item ナップザックの容量を$W=\sum_{i=1}^n w_i / 2$とする
+\item 閾値を$K=\sum_{i=1}^n w_i / 2$とする (ナップザックの容量と一致)
+\end{itemize}
+このとき次が成り立つ: 戦略均衡分配問題の入力$w$の答えがYesである $\iff$ 上で構成された01ナップザック判定問題の入力の答えがYesである.
+
+($\Rightarrow$の証明) 戦力均衡分配問題の入力$w$の答えがYesであるとする. このとき, 戦力の総和が等しくなるチーム分けを$T_1,T_2$とする. このとき, 集合$T_1$を01ナップザック判定問題のアイテムの集合とすると, そのアイテムの重みと価値の総和はそれぞれ$W/2$に一致するので, 01ナップザック判定問題の入力の答えはYesである.
+
+($\Leftarrow$の証明) 上で構成された01ナップザック問題の入力の答えがYesであるとし, 最適なアイテムの選び方を$T$とする. ナップザックの容量いっぱいにアイテムが詰め込まれているため, $T$のアイテムの重みの総和は$W=\sum_{i\in T} w_i/2$に一致する. このとき, $T$とその補集合は戦力の総和が等しくなるチーム分けを与えるため, 戦力均衡分配問題の入力$w$の答えはYesである.
+
+\end{solution}
+
+\newpage
+
+\begin{problem}
+    計算量クラスに関する以下の問題に答えよ.
+    \begin{enumerate}[label=(\arabic*)]
+        \item $\mathtt{P}\subseteq\mathtt{NP}$ を示せ (\textbf{1点}).
+        \item $\Pi_1\le_{\mathrm{Karp}} \Pi_2$ かつ $\Pi_2\in\mathtt{NP}$ ならば $\Pi_1\in\mathtt{NP}$ を示せ (\textbf{1点}).
+    \end{enumerate}
+\end{problem}
+
+\begin{solution}
+\paragraph*{(1)の解説.}
+
+任意の判定問題$\Pi\in\mathtt{P}$に対して, $\Pi$を解く多項式時間アルゴリズムを$A$とする. $\Pi\in\mathtt{NP}$に属することを示すため, 多項式時間アルゴリズム$V(x,y)$を$V(x,y)=A(x)$と定義する ($y$の長さは任意でよい).
+このとき, $\Pi(x)=1$ならば, 任意の$y$に対して$V(x,y)=1$となる.
+特に, 例えば$y=0$(1文字)に対して$V(x,0)=1$となる.
+逆に$\Pi(x)=0$ならば任意の$y$に対して$V(x,y)=0$となる.
+よって$\Pi\in\mathtt{NP}$である.
+
+\paragraph*{(2)の解説.}
+$\Pi_2\in\mathtt{NP}$なので, ある多項式時間アルゴリズム$V(x,y)$と多項式$p\colon\mathbb{N}\to\mathbb{N}$が存在して, 任意の$x\in\Sigma^*$に対して
+\begin{itemize}
+\item $\Pi_2(x)=1$ならば, ある$y\in\Sigma^{p(|x|)}$が存在して$V(x,y)=1$
+\item $\Pi_2(x)=0$ならば, 任意の$y\in\Sigma^{p(|x|)}$に対して$V(x,y)=0$
+\end{itemize}
+が成り立つ.
+さらに, $\Pi_1\le_{\mathrm{Karp}} \Pi_2$なので, あるカープ帰着$f\colon\Sigma^*\to\Sigma^*$が存在して, 任意の$x\in\Sigma^*$に対して
+\begin{align*}
+    \Pi_1(x) = \Pi_2(f(x)).
+\end{align*}
+このとき, $f$は多項式時間で計算できる関数なので, 任意の$x\in\Sigma^*$に対して, $|f(x)|\le \ell(|x|)$を満たす多項式$\ell$が存在する.
+
+問題$\Pi_1$に対して, 多項式時間アルゴリズム$V'(x,y)$を$V'(x,y)=V(f(x),y)$と定義する. さらに, 多項式$p'$を, $p'(n) = p(\ell(n))$と定義する.
+このとき, 任意の$x\in\Sigma^*$に対して
+\begin{itemize}
+\item $\Pi_1(x)=1$ならば, ある$y\in\Sigma^{p'(|x|)}$が存在して$V'(x,y)=1$が成り立つ. これは以下の議論から従う: $\Pi_2(f(x))=\Pi_1(x)=1$より, ある$y^*\in\Sigma^{p(|f(x)|)}$が存在して$V(f(x),y^*)=1$となる. このとき, $|y^*|=p(|f(x)|) \le \ell(|x|)$であり, $y^*$の末尾に適当な文字を追加してちょうど$\ell(|x|)$文字にしたものを$y$とすればよい.
+\item $\Pi_1(x)=0$ならば, 任意の$y\in\Sigma^{p'(|x|)}$に対して$V'(x,y)=0$. これは, $\Pi_2\in\mathtt{NP}$であることから直ちに従う.
+\end{itemize}
+が成り立つ.
+よって, $\Pi_1\in\mathtt{NP}$である.
+
+\end{solution}
+
+\newpage
+
+\begin{problem}
+以下の二つは同値であることを示せ.
+\begin{itemize}
+    \item あるNP完全な判定問題 $\Pi$ に対して, $\Pi \in \mathtt{P}$
+    \item $\mathtt{P}=\mathtt{NP}$
+\end{itemize}
+\end{problem}
+
+\begin{solution}
+\paragraph*{解説.}
+
+($\Rightarrow$の証明) あるNP完全な判定問題 $\Pi$ に対して, $\Pi \in \mathtt{P}$ であるとする. このとき, $\Pi$を解く多項式時間アルゴリズム$A$が存在する. このとき, 任意の判定問題$\Pi'\in\mathtt{NP}$に対して, $\Pi'\le_{\mathrm{Karp}} \Pi$ である. よって, $\Pi'\in\mathtt{P}$である. よって, $\mathtt{P}=\mathtt{NP}$である.
+
+($\Leftarrow$の証明) $\mathtt{P}=\mathtt{NP}$ であるとする. このとき, 任意の判定問題$\Pi\in\mathtt{NP}$に対して, $\Pi\in\mathtt{P}$ である. 特に, 任意のNP完全な判定問題 $\Pi$ に対して, $\Pi \in \mathtt{P}$ である.
+
+\end{solution}
+\end{document}

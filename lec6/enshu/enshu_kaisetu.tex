@@ -1,0 +1,156 @@
+\documentclass[12pt,a4paper]{article}
+% \usepackage[utf8]{inputenc} % fontspecと併用時は不要
+\usepackage[japanese]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{empheq}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+\usepackage{tcolorbox}
+\tcbuselibrary{breakable}
+
+% 日本語改行設定
+\usepackage{xeCJK}
+\usepackage{indentfirst}
+\setlength{\parindent}{1em}
+
+% 日本語フォント設定
+\usepackage{fontspec}
+\setmainfont{Hiragino Mincho Pro}
+\setsansfont{Hiragino Sans}
+\setmonofont{Menlo}
+\setCJKmainfont{Hiragino Mincho Pro}
+\setCJKsansfont{Hiragino Sans}
+\setCJKmonofont{Menlo}
+% ページ設定
+\geometry{margin=1.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{プログラミング応用 第四回}
+\fancyhead[R]{演習問題解説}
+\fancyfoot[R]{\ifnum\value{page}=1\small（裏面に続く）\fi}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% 問題番号のカウンター
+\newcounter{problem}
+\setcounter{problem}{0}
+
+% シンプルな問題環境
+\newenvironment{problem}[1][]{
+    \refstepcounter{problem}
+    \vspace{1em}
+    \noindent
+    \textbf{問\arabic{problem}} #1
+    %\vspace{0.5em}
+    %\par
+}{
+    \vspace{1em}
+}
+
+% 解答環境
+\newenvironment{solution}{
+    \vspace{0.5em}
+    \begin{tcolorbox}[colback=white, colframe=black, boxrule=1pt, arc=0mm, breakable]
+    \noindent
+    \textbf{【解答】}
+    \vspace{0.3em}
+}{
+    \end{tcolorbox}
+    \vspace{1em}
+}
+
+\begin{document}
+
+% ヘッダー情報
+\begin{center}
+    {\Large \textbf{プログラミング応用 第六回}}\\[0.5em]
+    {\large \textbf{演習問題解説}}\\[1em]
+\end{center}
+
+
+\begin{problem}
+  講義資料p23の線形計画問題
+  \begin{empheq}[box=\fbox]{align*}
+        \text{minimize} \quad & c^\top x \\
+    \text{s.t.} \quad & Ax \ge b \\
+                      & x \ge 0
+  \end{empheq}
+  に対して以下の問いに答えよ.
+  \begin{enumerate}[label=(\arabic*)]
+    \item 関数 $\mathcal{L}^*(y):=\inf_{x\ge 0}\{c^\top x + y^\top (b-Ax)\}$ を求めよ (\textbf{1点}).
+    \item $y\ge 0$の制約下で$\mathcal{L}^*(y)$ を最大化する最適化問題がp23に記載されている双対問題
+    \begin{empheq}[box=\fbox]{align*}
+          \text{maximize} \quad & y^\top b \\
+      \text{s.t.} \quad & y^\top A \le c^\top \\
+                        & y \ge 0
+    \end{empheq}
+  と一致することを示せ. また, その最適値が主問題の最適値以下であることを弱双対定理を用いずに示せ. 簡単のため, 主問題が最適解を持つことを仮定してよい (\textbf{2点}).
+  \end{enumerate}
+\end{problem}
+
+\begin{solution}
+\paragraph*{(1)の解説.}
+
+$\mathcal{L}^*(y)$を式変形すると
+\begin{align*}
+  \mathcal{L}^*(y) &= \inf_{x\ge 0}\{c^\top x + y^\top (b-Ax)\} \\
+                  &= y^\top b + \underbrace{\inf_{x\ge 0}\{(c^\top - y^\top A)x\}}_{(*)}.
+\end{align*}
+
+($*$)の部分を考える. $(c^\top - y^\top A)_i<0$なる成分$i$が存在するならば, $x_i\to\infty$, $x_j=0$ ($j\ne i$) とすることで$(*)\to-\infty$となる. このとき, $\mathcal{L}^*(y)=-\infty$となる.
+一方, $c^\top - y^\top A \ge 0$ならば, 任意の$x\ge 0$に対して$(c^\top - y^\top A)x\ge 0$となり, $x=0$とすれば$(c^\top - y^\top A)x=0$となる. よって, $(*) = 0$となる.
+以上より,
+\begin{align*}
+  \mathcal{L}^*(y) = \begin{cases}
+    y^\top b & \text{if } c^\top - y^\top A \ge 0 \\
+    -\infty & \text{otherwise}.
+  \end{cases}
+\end{align*}
+
+\paragraph*{(2)の解説.}
+
+$y^\top A\le c^\top$でないとき, $\mathcal{L}^*(y)=-\infty$となる. 従って, $\max_{y\ge 0} \mathcal{L}^*(y)$は, $y^\top A \le c^\top$ を満たす$y\ge 0$に対してのみ考えればよく, このとき $\mathcal{L}^*(y)=y^\top b$となる. これは双対問題と一致する.
+
+最適値の比較については, 主問題と双対問題の実行可能解$x,y$に対して
+\begin{align*}
+  c^\top x &\ge y^\top A x & & \because y^\top A \le c^\top\text{ and } x\ge 0 \\
+  &\ge y^\top b. & & \because Ax\ge b\text{ and } y\ge 0
+\end{align*}
+よって主張を得る.
+
+
+\end{solution}
+
+\begin{problem}
+    最短$st$経路問題のIP定式化のminimizeとmaximizeを入れ替えた整数計画問題
+        \begin{empheq}[box=\fbox]{align*}
+        \text{maximize} \quad & \sum_{e\in E} w(e) x_e \\
+        \text{s.t.} \quad & \sum_{e\in \delta^{\mathrm{in}}(v)} x_e - \sum_{e\in \delta^{\mathrm{out}}(v)} x_e =
+          \begin{cases}
+            -1 & v=s \\
+            1 & v=t \\
+            0 & \text{otherwise}
+          \end{cases} && (\forall v\in V) \\
+                  & x_e\in\{0,1\} && (\forall e\in E)
+    \end{empheq}
+    を考える (辺重みは非負とする). この問題は\textbf{最長}$st$経路問題のIP定式化になっているだろうか?
+    そうであれば証明し, そうでなければ反例を挙げよ (\textbf{2点}).
+\end{problem}
+
+\begin{solution}
+\paragraph*{解説.}
+答えは「なっていない」.
+最大化問題だとパス以外にも部分順回路を選びうる. 部分順回路がIPの最適解に組み込まれると最長経路問題とは異なる最適値になる.
+
+\paragraph*{採点基準.}
+結論が合ってれば1点, 反例も正しければさらに1点 (結論が間違っていれば問答無用で0点).
+
+\end{solution}
+
+\end{document}

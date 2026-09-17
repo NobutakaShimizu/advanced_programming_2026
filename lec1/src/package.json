@@ -1,0 +1,10 @@
+{
+  "name": "src",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "slidev build --base /advanced_programming_2026/lec1/ --out ../../dist/lec1",
+    "dev": "slidev --open",
+    "export": "slidev export --output ../../dist/lec1/lec1.pdf"
+  }
+}

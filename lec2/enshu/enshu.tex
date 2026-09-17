@@ -1,0 +1,118 @@
+\documentclass[12pt,a4paper]{article}
+% \usepackage[utf8]{inputenc} % fontspecと併用時は不要
+\usepackage[japanese]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+
+% 日本語改行設定
+\usepackage{xeCJK}
+\usepackage{indentfirst}
+\setlength{\parindent}{1em}
+
+% 日本語フォント設定
+\usepackage{fontspec}
+\setmainfont{Hiragino Mincho Pro}
+\setsansfont{Hiragino Sans}
+\setmonofont{Menlo}
+\setCJKmainfont{Hiragino Mincho Pro}
+\setCJKsansfont{Hiragino Sans}
+\setCJKmonofont{Menlo}
+% ページ設定
+\geometry{margin=1.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{プログラミング応用 第二回}
+\fancyhead[R]{演習問題}
+\fancyfoot[R]{\ifnum\value{page}=1\small（裏面に続く）\fi}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% 問題番号のカウンター
+\newcounter{problem}
+\setcounter{problem}{0}
+
+% シンプルな問題環境
+\newenvironment{problem}[1][]{
+    \refstepcounter{problem}
+    \vspace{1em}
+    \noindent
+    \textbf{問\arabic{problem}} #1
+    %\vspace{0.5em}
+    %\par
+}{
+    \vspace{1em}
+}
+
+\begin{document}
+
+% ヘッダー情報
+\begin{center}
+    {\Large \textbf{プログラミング応用 第二回}}\\[0.5em]
+    {\large \textbf{演習問題}}\\[1em]
+\end{center}
+
+\noindent\textbf{注意事項}
+
+\begin{itemize}[leftmargin=1em]
+    \item 解答はpdf形式でLMSにアップロードしてください (例えば紙に手書きしてスキャンしたものや \TeX をコンパイルしたものなど)
+    \item 締切：2025年10月21日（火）日本時間13時
+    \item 質問がある場合は手を挙げてください。
+    \item なお、アルゴリズムの記述問題に関しては講義資料の疑似コードを参考にしてください（明確な文法が存在するわけではないので、あくまでもアルゴリズムの動作が理解できるよう記述してあれば十分です）。記述に不安がある場合は質問すること。
+\end{itemize}
+
+\begin{problem}
+講義で紹介した硬貨支払い枚数最小化問題についての以下の問いに答えよ。それぞれの小問は独立している。
+
+\begin{itemize}
+\item 講義で紹介した硬貨支払い枚数最小化問題に対する貪欲法は、日本円硬貨(1円、5円、10円、50円、100円、500円)に対して最適であった。講義資料で与えた証明は、「1円玉を5枚以上使えばそれらを5円玉に置き換えて枚数を減らせるため1円玉使う枚数は高々4枚である」という議論を適用して、5円玉は高々1枚、10円玉は高々4枚、50円玉は高々1枚、100円玉は高々4枚であることを用いた。この事実は、\textbf{各硬貨はその一つ上の価値単位の約数になっている}ことによっている（例えば5は10の約数、10は50の約数、50は100の約数）。では、紙幣も追加した場合（1円、5円、10円、100円、500円、1000円、2000円、5000円、10000円）でも貪欲法は最適解を出力するだろうか？正しいならば証明し、そうでないならば反例を示せ。
+\item 仮想的な貨幣体系として1円玉、3円玉、4円玉のみからなる体系を考える。この体系では、貪欲法は最適解を出力するだろうか？正しいならば証明し、そうでないならば反例を示せ。
+\item 仮想的な通貨体系として1円玉および全ての素数$p$に対して$p$円玉が存在する体系を考える。この体系では、支払う金額 $M \in \mathbb{N}$ がどのような値であっても常に3枚以下の硬貨で支払えることを証明せよ。ただし、ゴールドバッハ予想\footnote{任意の $2$ より大きい偶数は2つの素数の和で表せるという数学の予想。}を仮定してよい。
+\end{itemize}
+\end{problem}
+
+\begin{problem}
+それぞれ$n$個の整数からなる四つの集合$A_1,A_2,A_3,A_4\subseteq \mathbb{Z}$ が与えられる。
+ある$a_1\in A_1,a_2\in A_2,a_3\in A_3,a_4\in A_4$ が存在して, $a_1+a_2+a_3+a_4=0$ を満たすかどうかを$O(n^2\log n)$時間で判定するアルゴリズムの疑似コードを記述せよ。
+また、そのアルゴリズムの計算量が実際に$O(n^2\log n)$時間であることを簡単に説明せよ（例えばソートの計算量など講義資料で説明した内容は仮定してよい）。
+\end{problem}
+
+\newpage
+
+\begin{problem}
+凸関数に関する以下のそれぞれの主張は正しいだろうか？正しいならば\textbf{定義に基づいて}証明し、そうでないならば反例を示せ。
+\begin{itemize}
+\item 関数$f(x)=x^2$は凸関数である。
+\item 関数$f(x)=x^3$は凸関数である。
+\item 二つの関数$f,g\colon\mathbb{R}^n\to\mathbb{R}$が凸関数であるならば、それらの和$f(x)+g(x)$も凸関数である。
+\item 二つの関数$f,g\colon\mathbb{R}^n\to\mathbb{R}$が凸関数であるならば、それらの積$f(x)g(x)$も凸関数である。
+\item 二つの関数$f,g\colon\mathbb{R}^n\to\mathbb{R}$が凸関数であるならば、それらの大きい方の値を返す関数$h(x)=\max(f(x),g(x))$も凸関数である。
+\end{itemize}
+
+\end{problem}
+
+\begin{problem}
+関数 $f(x) = x^2-S$ を考える. ただし $S>0$ である. 以下の問いに答えよ.
+\begin{enumerate}
+\item 点 $(a,f(a))$ における $f$ の接線と $x$軸との交点の座標を求めよ.
+\item 数列 $(x_0,x_1,x_2,\dots)$ を以下のように定義する:
+\begin{align*}
+    x_t = \begin{cases}    
+        a & \text{if } t = 0,\\
+        \frac{1}{2}\left(x_{t-1} + \frac{S}{x_{t-1}}\right) & \text{if } t \ge 1.
+    \end{cases}
+\end{align*}
+このとき, $\lim_{t\to\infty} x_t$ を求めよ. ただし, $a\ne 0$ とする.
+\end{enumerate}
+
+
+\end{problem}
+
+
+\end{document}

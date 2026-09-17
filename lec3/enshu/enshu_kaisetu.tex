@@ -1,0 +1,168 @@
+\documentclass[12pt,a4paper]{article}
+% \usepackage[utf8]{inputenc} % fontspecと併用時は不要
+\usepackage[japanese]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+
+% 日本語改行設定
+\usepackage{xeCJK}
+\usepackage{indentfirst}
+\setlength{\parindent}{1em}
+
+% 日本語フォント設定
+\usepackage{fontspec}
+\setmainfont{Hiragino Mincho Pro}
+\setsansfont{Hiragino Sans}
+\setmonofont{Menlo}
+\setCJKmainfont{Hiragino Mincho Pro}
+\setCJKsansfont{Hiragino Sans}
+\setCJKmonofont{Menlo}
+% ページ設定
+\geometry{margin=1.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{プログラミング応用 第三回}
+\fancyhead[R]{演習問題解説}
+\fancyfoot[R]{\ifnum\value{page}=1\small（裏面に続く）\fi}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% 問題番号のカウンター
+\newcounter{problem}
+\setcounter{problem}{0}
+
+% シンプルな問題環境
+\newenvironment{problem}[1][]{
+    \refstepcounter{problem}
+    \vspace{1em}
+    \noindent
+    \textbf{問\arabic{problem}} #1
+    %\vspace{0.5em}
+    %\par
+}{
+    \vspace{1em}
+}
+
+% 解答環境
+\newenvironment{solution}{
+    \vspace{0.5em}
+    \noindent
+    \textbf{【解答】}
+    \vspace{0.3em}
+}{
+    \vspace{1em}
+}
+
+\begin{document}
+
+% ヘッダー情報
+\begin{center}
+    {\Large \textbf{プログラミング応用 第三回}}\\[0.5em]
+    {\large \textbf{演習問題解説}}\\[1em]
+\end{center}
+
+\begin{problem}
+次の問いに答えよ.
+\begin{enumerate}
+\item $k$個のボールそれぞれを, $k$個の箱の中から一様ランダムに選んで入れる. このとき, どの箱にもちょうど一つずつボールが入る確率を求めよ.
+\item 1で求めた確率を $p_k$ とする. $\lim_{k\to\infty} \frac{\log p_k}{k}$ の極限値を求めよ (ただしここでは自然対数を考える).
+ただし, 解答では次のStirlingの近似を証明なしに用いてよい:
+\begin{align*}
+    \sqrt{2\pi} n^{n+1/2} e^{-n} \le n! \le e n^{n+1/2} e^{-n}
+\end{align*}
+\item $k$個のボールを$10k^2$個の箱の中から一つ一様ランダムに選んで入れる. このとき, どの箱にもボールが高々一つしか入らない確率が少なくとも$0.9$であることを示せ.
+\end{enumerate}
+\end{problem}
+
+
+\begin{solution}
+\begin{enumerate}
+\item $p_k = \frac{k!}{k^k}$.
+\item $\lim_{k\to\infty} \frac{\log p_k}{k} = -1$
+\item $1\le i<j\le k$に対し
+\[
+\text{$i$番目と$j$番目のボールが同じ箱に入る}
+\]
+という事象を$\mathcal{E}_{i,j}$とする. このとき, $\Pr[\mathcal{E}_{i,j}] = \frac{1}{10k^2}$である. 「全ての箱に高々一つのボールが入る」の余事象は「ある$1\le i<j\le k$が存在して, $\mathcal{E}_{i,j}$が成り立つ」である. この確率は高々
+\begin{align*}
+  \Pr\left[\bigvee_{1\le i<j\le k} \mathcal{E}_{i,j}\right] \le \sum_{1\le i<j\le k} \Pr[\mathcal{E}_{i,j}] = \frac{k(k-1)}{2} \cdot \frac{1}{10k^2} \le \frac{1}{10}
+\end{align*}
+である. 従って, 所望の確率は少なくとも$0.9$である.
+\end{enumerate}
+\end{solution}
+
+\newpage
+\begin{problem}
+    ベクトル $v\in\mathbb{R}^n \setminus\{0\}$ を固定する.
+    ベクトル $r \in\{0,1\}^n$ を, 各$r_i$を独立に確率$1/2$で$0$または$1$にする.
+    このとき
+    \begin{align*}
+        \Pr\left[\sum_{i=1}^n v_i r_i \ne 0\right] \ge 1/2
+    \end{align*}
+    が成り立つことを示せ.
+\end{problem}
+
+\begin{solution}
+\begin{itemize}
+  \item $v$が非ゼロベクトルなので, ある$i\in\{1,\dots,n\}$が存在して, $v_i\ne 0$である. 特に$v$の成分の順番を入れ替えても確率は不変なので, $v_1\ne 0$としても一般性を失わない.
+  \item 考えている確率を書き換えると
+  \begin{align*}
+    \Pr\left[\sum_{i=1}^n v_i r_i \ne 0\right] &= \Pr\left[v_1r_1 + \sum_{i=2}^n v_i r_i \ne 0\right] \\
+    &= \Pr\left[v_1r_1 \ne - \sum_{i=2}^n v_i r_i\right] \\
+    &= \Pr\left[r_1 \ne -\frac{1}{v_1} \sum_{i=2}^n v_i r_i \right]
+  \end{align*}
+  \item $r_2,\dots,r_n$の値が何であっても, $r_1$が$-\frac{1}{v_1} \sum_{i=2}^n v_i r_i$と一致する確率は高々$1/2$である. 従って, 所望の確率は少なくとも$1/2$である.
+\end{itemize}
+\end{solution}
+
+\newpage
+
+\begin{problem}
+確率変数$X,Y$をそれぞれ$\{0,\dots,5\}$上の一様分布に従う確率変数とする ($X$と$Y$は独立).
+このとき, 確率変数の独立性の定義に基づいて以下の問いに答えよ.
+\begin{enumerate}
+\item $X$ と $(X+Y)\bmod 6$ は独立であるかどうか, 理由も含めて答えよ.
+\item $X$ と $(X\cdot Y)\bmod 6$ は独立であるかどうか, 理由も含めて答えよ.
+\end{enumerate}
+\end{problem}
+
+\begin{solution}
+採点は答えだけ確認すればよい (証明はおわなくてよい)
+\begin{enumerate}
+\item 正しい.
+\item 誤り.
+\end{enumerate}
+\end{solution}
+
+\newpage
+
+\begin{problem}
+ベクトル $y\in\mathbb{R}^D$ を固定する.
+行列$B\in\mathbb{R}^{d\times D}$を, 各成分が独立に標準正規分布 $N(0,1)$ に従うランダム行列とし,
+$A=\frac{1}{\sqrt{d}}B$ とする.
+このとき, $\mathbb{E}[\|Ay\|^2] = \|y\|^2$ が成り立つことを示せ (講義資料に書いてある内容は証明なしに用いて良い).
+
+\end{problem}
+
+\begin{solution}
+\begin{itemize}
+  \item まず, $Ay$の代わりに$By$のノルムの期待値を考える. $(By)_i=\sum_{j=1}^D B_{ij} y_j$であるから,
+  \begin{align*}
+    \mathbb{E}[(By)_i^2] &= \mathbb{E}\left[\left(\sum_{j=1}^D B_{ij} y_j\right)^2\right] \\
+    &= \mathbb{E}\left[\sum_{1\le j,j'\le D} B_{ij}B_{ij'} y_j y_{j'}\right] \\
+    &= \sum_{j=1}^D y_j^2 \mathbb{E}[B_{ij}^2] + \sum_{j\ne j'} y_j y_{j'} \mathbb{E}[B_{ij}]\mathbb{E}[B_{ij'}] \\
+    &= \sum_{j=1}^D y_j^2 \\
+    &= \|y\|^2.
+  \end{align*}
+  \item これを$i=1,\dots,d$に対して足し合わせると, $\mathbb{E}[\|By\|^2] = d \|y\|^2$ が得られる.
+  \item 両辺を$d$で割ると所望の等式が得られる.
+\end{itemize}
+\end{solution}
+\end{document}
